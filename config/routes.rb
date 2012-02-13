@@ -1,4 +1,8 @@
 Colo2012::Application.routes.draw do
+  resources :uas
+
+  resources :starturls
+
   resources :rules
 
   resources :pages

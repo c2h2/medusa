@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ua: MyString
+  weight: 1.5
+
+two:
+  ua: MyString
+  weight: 1.5

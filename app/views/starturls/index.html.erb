@@ -1,0 +1,25 @@
+<h1>Listing starturls</h1>
+
+<table>
+  <tr>
+    <th>Url</th>
+    <th>Weight</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @starturls.each do |starturl| %>
+  <tr>
+    <td><%= starturl.url %></td>
+    <td><%= starturl.weight %></td>
+    <td><%= link_to 'Show', starturl %></td>
+    <td><%= link_to 'Edit', edit_starturl_path(starturl) %></td>
+    <td><%= link_to 'Destroy', starturl, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Starturl', new_starturl_path %>

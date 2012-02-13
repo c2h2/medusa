@@ -1,0 +1,25 @@
+<h1>Listing uas</h1>
+
+<table>
+  <tr>
+    <th>Ua</th>
+    <th>Weight</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @uas.each do |ua| %>
+  <tr>
+    <td><%= ua.ua %></td>
+    <td><%= ua.weight %></td>
+    <td><%= link_to 'Show', ua %></td>
+    <td><%= link_to 'Edit', edit_ua_path(ua) %></td>
+    <td><%= link_to 'Destroy', ua, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Ua', new_ua_path %>

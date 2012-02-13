@@ -1,0 +1,25 @@
+<%= form_for(@starturl) do |f| %>
+  <% if @starturl.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@starturl.errors.count, "error") %> prohibited this starturl from being saved:</h2>
+
+      <ul>
+      <% @starturl.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label :weight %><br />
+    <%= f.text_field :weight %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

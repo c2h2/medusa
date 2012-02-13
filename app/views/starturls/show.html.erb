@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Url:</b>
+  <%= @starturl.url %>
+</p>
+
+<p>
+  <b>Weight:</b>
+  <%= @starturl.weight %>
+</p>
+
+
+<%= link_to 'Edit', edit_starturl_path(@starturl) %> |
+<%= link_to 'Back', starturls_path %>
