@@ -6,4 +6,7 @@ class Link
   field :lv_at, :type => DateTime
   field :state, :type => Integer
   field :depth, :type => Integer
+
+
+
 end

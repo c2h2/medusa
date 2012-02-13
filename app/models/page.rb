@@ -14,4 +14,13 @@ class Page
   field :hash, :type => String
   field :lm_at, :type => DateTime
   field :exp_at, :type => DateTime
+
+
+  def dl url, ua=nil, cookie=nil, params={}
+    remain_times = params[:remain]
+    
+    if remain_times<=0
+      self.code = 1999
+    end
+  end
 end
