@@ -1,0 +1,69 @@
+<%= form_for(@page) do |f| %>
+  <% if @page.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@page.errors.count, "error") %> prohibited this page from being saved:</h2>
+
+      <ul>
+      <% @page.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :worker %><br />
+    <%= f.text_field :worker %>
+  </div>
+  <div class="field">
+    <%= f.label :code %><br />
+    <%= f.number_field :code %>
+  </div>
+  <div class="field">
+    <%= f.label :fn %><br />
+    <%= f.text_field :fn %>
+  </div>
+  <div class="field">
+    <%= f.label :charset %><br />
+    <%= f.text_field :charset %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :mime %><br />
+    <%= f.text_field :mime %>
+  </div>
+  <div class="field">
+    <%= f.label :etag %><br />
+    <%= f.text_field :etag %>
+  </div>
+  <div class="field">
+    <%= f.label :resp_ms %><br />
+    <%= f.number_field :resp_ms %>
+  </div>
+  <div class="field">
+    <%= f.label :length %><br />
+    <%= f.number_field :length %>
+  </div>
+  <div class="field">
+    <%= f.label :state %><br />
+    <%= f.number_field :state %>
+  </div>
+  <div class="field">
+    <%= f.label :hash %><br />
+    <%= f.text_field :hash %>
+  </div>
+  <div class="field">
+    <%= f.label :lm_at %><br />
+    <%= f.datetime_select :lm_at %>
+  </div>
+  <div class="field">
+    <%= f.label :exp_at %><br />
+    <%= f.datetime_select :exp_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

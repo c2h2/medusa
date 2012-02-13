@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Url:</b>
+  <%= @link.url %>
+</p>
+
+<p>
+  <b>Rank:</b>
+  <%= @link.rank %>
+</p>
+
+<p>
+  <b>Lv at:</b>
+  <%= @link.lv_at %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @link.state %>
+</p>
+
+<p>
+  <b>Depth:</b>
+  <%= @link.depth %>
+</p>
+
+
+<%= link_to 'Edit', edit_link_path(@link) %> |
+<%= link_to 'Back', links_path %>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  url: MyString
+  rank: 1.5
+  lv_at: 2012-02-03 12:12:45
+  state: 1
+  depth: 1
+
+two:
+  url: MyString
+  rank: 1.5
+  lv_at: 2012-02-03 12:12:45
+  state: 1
+  depth: 1
