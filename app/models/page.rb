@@ -16,6 +16,8 @@ class Page
   field :exp_at, :type => DateTime
 
 
+  embedded_in :link
+
   def dl url, ua=nil, cookie=nil, params={}
     remain_times = params[:remain]
     

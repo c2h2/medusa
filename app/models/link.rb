@@ -8,5 +8,6 @@ class Link
   field :depth, :type => Integer
 
 
+  embeds_many :pages
 
 end
