@@ -5,7 +5,7 @@ require_relative 'aux.rb'
 require 'bunny'
 require 'yaml'
 require 'logger'
-
+require 'open-uri'
 
 class Linkworker
   
@@ -55,10 +55,12 @@ class Linkworker
     end
     page.link = link
     Util.log "DL #{link.url}"
+    hash = {} #put UA here
     sw=Stopwatch.new 
+    
     begin
-      Timeout::timeout(Conf.time(:network)) do
-        open(url, hash) do |f|
+      Timeout::timeout(100) do
+        open(link.url, hash) do |f|
           @doc     = f.read
           page.charset = f.charset
           page.mime    = f.content_type
