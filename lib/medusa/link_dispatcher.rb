@@ -39,7 +39,7 @@ class Linkdisp
     @new_links.each do |link|
       @cnt = @cnt + 1
       ylink = link.to_yaml
-      @exch.publish(ylink)
+      @exch.publish(ylink, :key=>"links")
       @logger.log @cnt
       STDOUT.puts @cnt
     end

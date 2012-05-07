@@ -2,9 +2,11 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.1'
 
-gem 'mongoid', "~> 2.4"
-gem 'bson_ext', "~> 1.5"
+gem 'mongoid'
+gem 'bson_ext'
 gem 'nokogiri'
+gem 'bunny'
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

@@ -34,6 +34,7 @@ GEM
     bson_ext (1.5.2)
       bson (= 1.5.2)
     builder (3.0.0)
+    bunny (0.7.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -126,10 +127,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bson_ext (~> 1.5)
+  bson_ext
+  bunny
   coffee-rails (~> 3.2.1)
   jquery-rails
-  mongoid (~> 2.4)
+  mongoid
   nokogiri
   rails (= 3.2.1)
   ruby-debug19
