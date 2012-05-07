@@ -8,6 +8,7 @@ gem 'nokogiri'
 gem 'bunny'
 
 
+gem 'sqlite3'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
