@@ -17,10 +17,9 @@ class Linkworker
     @queue = @bunny.queue("links")
     @queue.bind(@exch, :key=>"links")
     
-#    @bunny2 = Bunny.new(:host=>host)
-  #  @exch2  = @bunny.exchange("pages")
-   # @queue2 = @bunny.queue("pages")
-   # @queue2 = @queue2.bind(@exch2, :key=>"pages")
+    @exch2  = @bunny.exchange("pages")
+    @queue2 = @bunny.queue("pages")
+    @queue2.bind(@exch2, :key=>"pages")
   end
 
   def run
@@ -29,18 +28,20 @@ class Linkworker
     end
   end
 
-  def submit_to_server page
+  def submit_to_server
     #write back to rabbitmq
-
+    pp = @page.get_port
+    ypage = pp.to_yaml
+    @exch2.publish(ypage, :key=>"pages")
   end
 
   def process_one_link
     link = get_a_job
     #if link is accquired successful
     unless link.nil?
-      page = dl link
+      @page = dl link
       #if page is dl'ed successful
-      submit_to_server page
+      submit_to_server 
     else
       Util.log "no more job, sleep for a while"
       sleep 5
@@ -48,12 +49,12 @@ class Linkworker
   end
 
   def dl link, remain_times = 3
-    page = Page.new
+    @page = Page.new
     if remain_times <= 0
       Util.log "Error in DL #{link.url} really failed after #{3} times"
       return 
     end
-    page.link = link
+    @page.link = link
     Util.log "DL #{link.url}"
     hash = {} #put UA here
     sw=Stopwatch.new 
@@ -61,36 +62,36 @@ class Linkworker
     begin
       Timeout::timeout(100) do
         open(link.url, hash) do |f|
-          page.content = f.read
-          page.charset = f.charset
-          page.mime    = f.content_type
-          page.code    = f.status[0].to_i
+          @page.content = f.read
+          @page.charset = f.charset
+          @page.mime    = f.content_type
+          @page.code    = f.status[0].to_i
           f.base_uri
           f.meta
           begin
-            page.expires_at = Time.parse(f.meta["expires"])
+            @page.expires_at = Time.parse(f.meta["expires"])
           rescue => e
             #no expires found
           end
   
           begin
-            page.etag = f.meta["etag"]
+            @page.etag = f.meta["etag"]
           rescue => e
             #no etag found
           end
     
           unless f.last_modified.nil?
-            page.lm_at = f.last_modified
+            @page.lm_at = f.last_modified
           end
         end
-        page.resp_ms =  (sw.end * 1000).floor
+        @page.resp_ms =  (sw.end * 1000).floor
       end
-      Util.log "dl #{link.url} successfully, #{page.content.length} bytes dl'ed."
+      Util.log "dl #{link.url} successfully, #{@page.content.length} bytes dl'ed."
     rescue => e
       Util.log "Error in dl|#{link.url}|RETRYING#{remain_times - 1}|#{e}"
       dl(link, remain_times - 1)
     end
-    page
+    @page
   end
 
   def get_a_job

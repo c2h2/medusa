@@ -4,6 +4,7 @@ class Page
   field :worker, :type => String
   field :code, :type => Integer
   field :fn, :type => String
+  field :content, :type => String
   field :charset, :type => String
   field :title, :type => String
   field :mime, :type => String
@@ -17,12 +18,51 @@ class Page
 
 
   belongs_to :link
+  
+  def get_port
+    p=PagePort.new
+    p.worker    = self.worker
+    p.code      = self.code
+    p.fn        = self.fn
+    p.content   = self.content
+    p.charset   = self.charset
+    p.title     = self.title
+    p.mime      = self.mime
+    p.etag      = self.etag
+    p.resp_ms   = self.resp_ms
+    p.length    = self.length
+    p.state     = self.state
+    p.hash      = self.hash
+    p.lm_at     = self.lm_at
+    p.exp_at    = self.exp_at
+    p.created_at = self.created_at
+    p.updated_at = self.updated_at
+    p
+  end
+end
 
-  def dl url, ua=nil, cookie=nil, params={}
-    remain_times = params[:remain]
-    
-    if remain_times<=0
-      self.code = 1999
-    end
+class PagePort
+  attr_accessor :worker, :code, :fn, :content, :charset, :title, :mime, :etag, :resp_ms, :length, :state, :hash, :lm_at, :exp_at, :created_at, :updated_at
+
+
+  def get_page
+    p=Page.new
+    p.worker    = self.worker
+    p.code      = self.code
+    p.fn        = self.fn
+    p.content   = self.content
+    p.charset   = self.charset
+    p.title     = self.title
+    p.mime      = self.mime
+    p.etag      = self.etag
+    p.resp_ms   = self.resp_ms
+    p.length    = self.length
+    p.state     = self.state
+    p.hash      = self.hash
+    p.lm_at     = self.lm_at
+    p.exp_at    = self.exp_at
+    p.created_at = self.created_at
+    p.updated_at = self.updated_at  
+    p
   end
 end
