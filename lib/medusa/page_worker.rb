@@ -40,14 +40,27 @@ class Pageworker
     end
   end
 
-  def save_url
-    #determine if valid
+  def valid_url? url
+    (url.to_s =~ /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix)
+  end
 
-    
+  def save_url url
+    #determine if valid
+    unless valid_url?(url)
+      return
+    end
     #determine if intersted. (domain, regex, and similarity)
-    
+    unless Rule.ok?(url)
+      return
+    end
 
     #determine if duplicated.
+    if Link.exists? url
+      return
+    end
+
+    l=Link.new
+    l.save
 
   end
 

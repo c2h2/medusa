@@ -39,6 +39,16 @@ class Page
     p.updated_at = self.updated_at
     p
   end
+
+  def parse_page
+    if self.content.nil?
+      return nil
+    end
+    @noko_doc = Nokogiri::HTML(self.content)
+    @found_links = @noko_doc.css('a').map{|l| l['href'].to_s}
+    Util.log "Found #{@found_links.count} links"
+    @found_links
+  end
 end
 
 class PagePort
