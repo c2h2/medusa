@@ -29,8 +29,8 @@ class Linkworker
     end
   end
 
-  def report page
-
+  def submit_to_server page
+    #write back to rabbitmq
 
   end
 
@@ -40,7 +40,7 @@ class Linkworker
     unless link.nil?
       page = dl link
       #if page is dl'ed successful
-      report page
+      submit_to_server page
     else
       Util.log "no more job, sleep for a while"
       sleep 5
@@ -61,7 +61,7 @@ class Linkworker
     begin
       Timeout::timeout(100) do
         open(link.url, hash) do |f|
-          @doc     = f.read
+          page.content = f.read
           page.charset = f.charset
           page.mime    = f.content_type
           page.code    = f.status[0].to_i
@@ -83,19 +83,18 @@ class Linkworker
             page.lm_at = f.last_modified
           end
         end
-        page.response_time =  (sw.end * 1000).floor
+        page.resp_ms =  (sw.end * 1000).floor
       end
+      Util.log "dl #{link.url} successfully, #{page.content.length} bytes dl'ed."
     rescue => e
-      dl(link, remain_times - 1)
       Util.log "Error in dl|#{link.url}|RETRYING#{remain_times - 1}|#{e}"
+      dl(link, remain_times - 1)
     end
     page
   end
 
   def get_a_job
     item = @queue.pop
-    puts item.class
-    puts  item[:payload].class
     if item[:payload].is_a? String
       link = YAML::load item[:payload]
     else
