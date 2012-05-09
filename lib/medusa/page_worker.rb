@@ -19,7 +19,7 @@ class Pageworker
     
     @exch2  = @bunny.exchange("pages")
     @queue2 = @bunny.queue("pages")
-    @queue2 = @queue.bind(@exch2, :key=>"pages")
+    @queue2.bind(@exch2, :key=>"pages")
   end
 
   def run
@@ -30,13 +30,18 @@ class Pageworker
 
   def process_one_page
     page_port = get_a_job
+    Util.log "Getting a page #{page_port}"
     if !page_port.nil?
       page = page_port.get_page
 
-      urls = page.parse
+      urls = page.parse_page
+      return if urls.nil?
       urls.each do |url|
-        save_url url
+        save_url page.url, url
       end
+    else
+      Util.log "Empty queue, sleep for a while"
+      sleep 1
     end
   end
 
@@ -44,8 +49,10 @@ class Pageworker
     (url.to_s =~ /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix)
   end
 
-  def save_url url
+  def save_url page_url, url
     #determine if valid
+    url = Link.full_url(page_url, url)
+    Util.log "Saving #{url}"
     unless valid_url?(url)
       return
     end
@@ -59,7 +66,9 @@ class Pageworker
       return
     end
 
+    Util.log "Saved #{url}"
     l=Link.new
+    l.url = url 
     l.save
 
   end
@@ -67,10 +76,7 @@ class Pageworker
   
   def run
     loop do
-     else
-        #no outstanding job
-        sleep 10
-      end
+      process_one_page
     end
   end
 

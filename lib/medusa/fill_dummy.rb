@@ -3,6 +3,7 @@ require_relative 'models.rb'
 require_relative 'conf.rb'
 
 Link.destroy_all
+Page.destory_all
 
 1000.times do |i|
   l=Link.new

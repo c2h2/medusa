@@ -61,3 +61,7 @@ class Util
     exit 0
   end
 end
+
+### SIGNAL ###
+trap("INT"){$exit = true}
+trap("TERM"){$exit = true}

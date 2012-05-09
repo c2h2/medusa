@@ -1,8 +1,10 @@
+require 'nokogiri'
 class Page
   include Mongoid::Document
   include Mongoid::Timestamps
   field :worker, :type => String
   field :code, :type => Integer
+  field :url, :type => String
   field :fn, :type => String
   field :content, :type => String
   field :charset, :type => String
@@ -23,6 +25,7 @@ class Page
     p=PagePort.new
     p.worker    = self.worker
     p.code      = self.code
+    p.url       = self.url
     p.fn        = self.fn
     p.content   = self.content
     p.charset   = self.charset
@@ -52,13 +55,14 @@ class Page
 end
 
 class PagePort
-  attr_accessor :worker, :code, :fn, :content, :charset, :title, :mime, :etag, :resp_ms, :length, :state, :hash, :lm_at, :exp_at, :created_at, :updated_at
+  attr_accessor :worker, :code, :url, :fn, :content, :charset, :title, :mime, :etag, :resp_ms, :length, :state, :hash, :lm_at, :exp_at, :created_at, :updated_at
 
 
   def get_page
     p=Page.new
     p.worker    = self.worker
     p.code      = self.code
+    p.url       = self.url
     p.fn        = self.fn
     p.content   = self.content
     p.charset   = self.charset

@@ -60,8 +60,9 @@ class Linkworker
     sw=Stopwatch.new 
     
     begin
-      Timeout::timeout(100) do
+      Timeout::timeout(10) do
         open(link.url, hash) do |f|
+          @page.url     = link.url
           @page.content = f.read
           @page.charset = f.charset
           @page.mime    = f.content_type
