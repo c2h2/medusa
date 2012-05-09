@@ -31,8 +31,12 @@ class Linkworker
   def submit_to_server
     #write back to rabbitmq
     pp = @page.get_port
-    ypage = pp.to_yaml
-    @exch2.publish(ypage, :key=>"pages")
+    begin
+      ypage = pp.to_yaml
+      @exch2.publish(ypage, :key=>"pages")
+    rescue 
+      #avoid some UTF8 convert error.
+    end
   end
 
   def process_one_link

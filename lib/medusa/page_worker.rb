@@ -6,6 +6,7 @@ require 'bunny'
 require 'yaml'
 require 'logger'
 require 'open-uri'
+require 'nokogiri'
 
 class Pageworker
   
@@ -58,7 +59,7 @@ class Pageworker
     end
     #determine if intersted. (domain, regex, and similarity)
     unless Rule.ok?(url)
-      return
+      #return
     end
 
     #determine if duplicated.
