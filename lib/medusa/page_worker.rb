@@ -42,7 +42,7 @@ class Pageworker
       end
     else
       Util.log "Empty queue, sleep for a while"
-      sleep 1
+      sleep 0.1
     end
   end
 
@@ -83,6 +83,7 @@ class Pageworker
 
   def get_a_job
     item = @queue2.pop
+    puts "Queue length = #{@queue2.message_count}"
     if item[:payload].is_a? String
       page_port = YAML::load item[:payload]
     else

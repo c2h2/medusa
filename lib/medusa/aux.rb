@@ -62,6 +62,3 @@ class Util
   end
 end
 
-### SIGNAL ###
-trap("INT"){$exit = true}
-trap("TERM"){$exit = true}

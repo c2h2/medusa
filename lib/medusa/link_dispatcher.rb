@@ -19,8 +19,10 @@ class Linkdisp
   end
 
   def run
-    loop do 
-      if @queue.message_count < LINK_REFILL_LOW_LIMIT
+    loop do
+      queue_length = @queue.message_count
+      puts "#{queue_length} items in the link queue."
+      if queue_length < LINK_REFILL_LOW_LIMIT
         pull_new_data
         feed_rabbit
       end
@@ -40,6 +42,8 @@ class Linkdisp
       @cnt = @cnt + 1
       ylink = link.to_yaml
       @exch.publish(ylink, :key=>"links")
+      link.state = LINK_STATE_PROCESSING
+      link.save
       @logger.log @cnt
       STDOUT.puts @cnt
     end

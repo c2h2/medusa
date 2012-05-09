@@ -30,7 +30,7 @@ class Linkworker
 
   def submit_to_server
     #write back to rabbitmq
-    pp = @page.get_port
+    pp = @page
     begin
       ypage = pp.to_yaml
       @exch2.publish(ypage, :key=>"pages")
@@ -48,23 +48,24 @@ class Linkworker
       submit_to_server 
     else
       Util.log "no more job, sleep for a while"
-      sleep 5
+      sleep 0.01
     end
   end
 
-  def dl link, remain_times = 3
-    @page = Page.new
+  def dl link, remain_times = 2
+    return unless link.is_a? Link
+    @page = PagePort.new
     if remain_times <= 0
       Util.log "Error in DL #{link.url} really failed after #{3} times"
       return 
     end
-    @page.link = link
+    #@page.link = link #might need to fix here as portable won't transfer
     Util.log "DL #{link.url}"
     hash = {} #put UA here
     sw=Stopwatch.new 
     
     begin
-      Timeout::timeout(10) do
+      Timeout::timeout(5) do
         open(link.url, hash) do |f|
           @page.url     = link.url
           @page.content = f.read
@@ -101,6 +102,7 @@ class Linkworker
 
   def get_a_job
     item = @queue.pop
+    puts "Queue length = #{@queue.message_count}"
     if item[:payload].is_a? String
       link = YAML::load item[:payload]
     else
