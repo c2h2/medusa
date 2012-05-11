@@ -40,9 +40,14 @@ class Pageworker
       urls.each do |url|
         save_url page.url, url
       end
+      begin
+        page.save
+      rescue
+        #save utf-8 invliad problems.
+      end
     else
       Util.log "Empty queue, sleep for a while"
-      sleep 0.1
+      sleep 0.5
     end
   end
 
@@ -70,6 +75,7 @@ class Pageworker
     Util.log "Saved #{url}"
     l=Link.new
     l.url = url 
+    l.state = LINK_STATE_UNPROCESSED
     l.save
 
   end
