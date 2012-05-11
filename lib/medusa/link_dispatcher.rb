@@ -3,7 +3,6 @@ require_relative 'models.rb'
 require_relative 'conf.rb'
 require 'bunny'
 require 'yaml'
-require 'logger'
 
 
 class Linkdisp
@@ -15,7 +14,6 @@ class Linkdisp
     @exch = @bunny.exchange("links")
     @queue = @bunny.queue("links")
     @queue.bind(@exch, :key=>"links")
-    @logger = Logger.new(STDOUT)
   end
 
   def run
@@ -44,8 +42,7 @@ class Linkdisp
       @exch.publish(ylink, :key=>"links")
       link.state = LINK_STATE_PROCESSING
       link.save
-      @logger.log @cnt
-      STDOUT.puts @cnt
+      Util.log @cnt
     end
 
   end

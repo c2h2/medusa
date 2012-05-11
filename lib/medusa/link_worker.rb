@@ -4,7 +4,6 @@ require_relative 'conf.rb'
 require_relative 'aux.rb'
 require 'bunny'
 require 'yaml'
-require 'logger'
 require 'open-uri'
 
 class Linkworker
