@@ -1,2 +1,17 @@
 == Medusa, a distributed web crawler based on Ruby and RabbitMQ
 
+Medusa has a centralized rabbitmq message queue to distribute download jobs to individual worker. and worker downloads content and report back to central rabbitmq. Individual parser gets the reported back content by downloader and parse the page, find out the foregien links and save to monogodb.
+
+serveral procs:
+
+* rabbitmq-server
+* mongodb server
+* link_dispatcher.rb
+* link_worker.rb
+* page_worker.rb
+
+
+centralized data store, decentralized crawler worker(downloader)
+
+
+this project is still under development and very alpha period.
