@@ -1,2 +1,1 @@
-Dir[File.dirname(__FILE__) + '/../../app/models/*.rb'].each {|file| puts "Requiring #{file}"; require file }
-
+Dir[File.dirname(__FILE__) + '/../rails/app/models/*.rb'].each {|file| puts "Requiring #{file}"; require file }
