@@ -6,6 +6,7 @@ gem 'mongoid'
 gem 'bson_ext'
 gem 'nokogiri'
 gem 'bunny'
+gem 'memcached'
 
 
 gem 'sqlite3'
