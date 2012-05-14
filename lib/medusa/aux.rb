@@ -55,6 +55,7 @@ class Util
   end
 
   def self.log str, error_level=1
+    str = str.to_s
     @@counter ||=0
     str="" if str.nil?
     str = Time.now.to_s + "|" + (@@counter+=1).to_s+ "|" + str

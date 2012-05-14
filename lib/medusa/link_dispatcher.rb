@@ -1,6 +1,7 @@
 require_relative 'db.rb'
 require_relative 'models.rb'
 require_relative 'conf.rb'
+require_relative 'aux.rb'
 require 'bunny'
 require 'yaml'
 
@@ -19,12 +20,12 @@ class Linkdisp
   def run
     loop do
       queue_length = @queue.message_count
-      puts "#{queue_length} items in the link queue."
+      Util.log "#{queue_length} items in the link queue."
       if queue_length < LINK_REFILL_LOW_LIMIT
         pull_new_data
         feed_rabbit
       end
-      STDOUT.puts "Refill complete"
+      Util.log "Refill complete"
       sleep LINK_REFILL_SLEEP
     end
   end
