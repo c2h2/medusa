@@ -6,6 +6,7 @@ require 'bunny'
 require 'yaml'
 require 'open-uri'
 require 'nokogiri'
+require 'memcached'
 
 class Pageworker
   
@@ -54,11 +55,42 @@ class Pageworker
     (url.to_s =~ /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix)
   end
 
+  def memcache_init
+    @mem = Memcached.new 'localhost'
+    if PRE_WARM
+      links = Link.all
+      links.each do |link|
+        hash = get_hash(link.url)
+        @mem.set(hash, 1)
+      end     
+    end
+  end
+
+  def mem_has_link? url
+    @mem.get(get_hash(url)).is_a? Fixnum
+  end
+
+  def mem_visit_link? url
+    hash = get_hash url
+    res = @mem.get(get_hash(url)).is_a? Fixnum
+    if res
+      #very good duplicated url
+    else
+      @mem.set(hash, 1)
+    end
+    res
+  end
+  
+  def get_hash url
+    Util.hexmd5 url
+  end
+
   def save_url page_url, url
     #determine if valid
     url = Link.full_url(page_url, url)
-    Util.log "Saving #{url}"
+    Util.log "Checking #{url}"
     unless valid_url?(url)
+      Util.log "Non valid url, #{url}"
       return
     end
     #determine if intersted. (domain, regex, and similarity)
@@ -67,8 +99,15 @@ class Pageworker
     end
 
     #determine if duplicated.
-    if Link.exists? url
-      return
+    if mem_visit_link?  url
+      Util.log("cache hit, duplicated url.")
+      return 
+    else
+      if Link.exists? url
+        Util.log("cache miss, duplicated url.")
+        return
+      end
+      Util.log("cache miss, new url, saving #{url}")
     end
 
     Util.log "Saved #{url}"

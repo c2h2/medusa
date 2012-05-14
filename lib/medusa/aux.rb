@@ -1,4 +1,5 @@
 require 'logger'
+require 'digest'
 
 LOG = Logger.new(STDOUT)
 
@@ -43,6 +44,14 @@ class Util
 
   def self.sha384 str
     Digest::SHA384::digest str
+  end
+  
+  def self.hexmd5 str
+    Disgest::MD5::hexdigest str
+  end
+ 
+  def self.md5 str
+    Disgest::MD5::digest str
   end
 
   def self.log str, error_level=1
