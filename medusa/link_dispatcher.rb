@@ -1,7 +1,7 @@
-require_relative 'db.rb'
+require_relative 'conf/db.rb'
 require_relative 'models.rb'
-require_relative 'conf.rb'
-require_relative 'aux.rb'
+require_relative 'conf/conf.rb'
+require_relative 'lib/aux.rb'
 require 'bunny'
 require 'yaml'
 

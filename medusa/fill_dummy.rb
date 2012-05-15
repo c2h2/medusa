@@ -1,6 +1,6 @@
-require_relative 'db.rb'
+require_relative 'conf/db.rb'
 require_relative 'models.rb'
-require_relative 'conf.rb'
+require_relative 'conf/conf.rb'
 
 Link.destroy_all
 Page.destroy_all
