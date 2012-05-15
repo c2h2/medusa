@@ -1,5 +1,4 @@
-require_relative 'conf/db.rb'
-require_relative 'conf/models.rb'
+require_relative 'models.rb'
 require_relative 'conf/conf.rb'
 require_relative 'conf/aux.rb'
 require 'bunny'
@@ -114,6 +113,6 @@ class Linkworker
 
 end
 
-lw=Linkworker.new "localhost"
+lw=Linkworker.new RABBIT_HOST
 lw.run
 

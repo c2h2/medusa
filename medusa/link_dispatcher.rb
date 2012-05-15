@@ -8,9 +8,9 @@ require 'yaml'
 
 class Linkdisp
   
-  def initialize
+  def initialize host
     @cnt = 0
-    @bunny= Bunny.new(:logging => false )
+    @bunny= Bunny.new(:logging => false, :host => host )
     @bunny.start
     @exch = @bunny.exchange("links")
     @queue = @bunny.queue("links")
@@ -52,6 +52,6 @@ class Linkdisp
 
 end
 
-ld=Linkdisp.new
+ld=Linkdisp.new RABBIT_HOST
 ld.run
 

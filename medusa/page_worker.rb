@@ -138,6 +138,6 @@ class Pageworker
 
 end
 
-lw=Pageworker.new "localhost"
+lw=Pageworker.new RABBIT_HOST
 lw.run
 
