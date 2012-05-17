@@ -8,6 +8,9 @@ gem 'nokogiri'
 gem 'bunny'
 gem 'memcached'
 
+# if memcached is unable to install on ubuntu
+# apt-get install libsasl2-dev
+
 
 gem 'sqlite3'
 # Bundle edge Rails instead:

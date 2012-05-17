@@ -1,6 +1,7 @@
+require 'mongoid'
 require_relative 'models.rb'
 require_relative 'conf/conf.rb'
-require_relative 'conf/aux.rb'
+require_relative 'lib/aux.rb'
 require 'bunny'
 require 'yaml'
 require 'open-uri'
