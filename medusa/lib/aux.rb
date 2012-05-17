@@ -47,7 +47,7 @@ class Util
   end
   
   def self.hexmd5 str
-    Disgest::MD5::hexdigest str
+    Digest::MD5::hexdigest str
   end
  
   def self.md5 str

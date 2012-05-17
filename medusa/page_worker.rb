@@ -21,6 +21,7 @@ class Pageworker
     @exch2  = @bunny.exchange("pages")
     @queue2 = @bunny.queue("pages")
     @queue2.bind(@exch2, :key=>"pages")
+    memcache_init
   end
 
   def run
@@ -38,7 +39,7 @@ class Pageworker
       urls = page.parse_page
       return if urls.nil?
       urls.each do |url|
-        save_url page.url, url
+        save_url page, url
       end
       begin
         page.save
@@ -72,7 +73,7 @@ class Pageworker
 
   def mem_visit_link? url
     hash = get_hash url
-    res = @mem.get(get_hash(url)).is_a? Fixnum
+    res = @mem.get(hash).is_a? Fixnum
     if res
       #very good duplicated url
     else
@@ -85,9 +86,9 @@ class Pageworker
     Util.hexmd5 url
   end
 
-  def save_url page_url, url
+  def save_url page, url
     #determine if valid
-    url = Link.full_url(page_url, url)
+    url = Link.full_url(page.url, url)
     Util.log "Checking #{url}"
     unless valid_url?(url)
       Util.log "Non valid url, #{url}"
@@ -113,6 +114,7 @@ class Pageworker
     Util.log "Saved #{url}"
     l=Link.new
     l.url = url 
+    l.depth = page.link.depth + 1 rescue nil
     l.state = LINK_STATE_UNPROCESSED
     l.save
 
